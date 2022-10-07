@@ -17,6 +17,6 @@ export class EGroup {
     meeting_date: string;
     @Prop()
     zip_code: number;
+  
 }
-
 export const EGroupSchema = SchemaFactory.createForClass(EGroup);

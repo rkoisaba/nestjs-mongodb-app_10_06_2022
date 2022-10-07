@@ -1,33 +1,40 @@
 import { Injectable } from '@nestjs/common';
 import { CreateEGroupDto } from './dto/create-e-group.dto';
 import { UpdateEGroupDto } from './dto/update-e-group.dto';
-import { EGroup, EGroupDocument } from './schemas/e-group.schemas';
-import{InjectModel} from '@nestjs/mongoose'
+//import {EGroup, EGroupDocument } from './schemas/e-group.schemas';
+//import{EGroup} from './interface/e-groups.interface';
+import{InjectModel} from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { EGroupsModule } from './e-groups.module';
+import { EGroup } from './schemas/e-group.schemas';
+
 
 @Injectable()
 export class EGroupsService {
   constructor(
-    @InjectModel('EGroup') private readonly egroupModel : Model<EGroup>,
+    @InjectModel('Egroup') private readonly EgroupModel : Model<EGroup>,
   ){}
-  async create(createEGroupDto: CreateEGroupDto): Promise<EGroupDocument> {
-    const createdEgroup = await this.egroupModel.create(createEGroupDto);
+  async create(createEGroupDto: CreateEGroupDto): Promise<EGroup> {
+    const createdEgroup = await this.EgroupModel.create(createEGroupDto);
     return createdEgroup;
   }
 
-  findAll() {
-    return `This action returns all eGroups`;
+  async findAll():  Promise<EGroup[]>{
+    return this.EgroupModel.find().exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} eGroup`;
+  async findOne(id: string): Promise<EGroup> { 
+    return this.EgroupModel.findOne({_id:id}).exec();
   }
 
-  update(id: number, updateEGroupDto: UpdateEGroupDto) {
-    return `This action updates a #${id} eGroup`;
+  async update(id: string, updateEGroupDto: UpdateEGroupDto): Promise<EGroup> { 
+    const EgroupUpdate = await this.EgroupModel.findByIdAndUpdate(updateEGroupDto);
+
+    return EgroupUpdate;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} eGroup`;
+  async remove(id: string) {
+    const deletedEGroup = await this.EgroupModel.findByIdAndRemove({_id: id}).exec();
+    return deletedEGroup;
   }
 }
