@@ -1,8 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CreateEGroupDto } from './dto/create-e-group.dto';
 import { UpdateEGroupDto } from './dto/update-e-group.dto';
-//import {EGroup, EGroupDocument } from './schemas/e-group.schemas';
-//import{EGroup} from './interface/e-groups.interface';
 import{InjectModel} from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { EGroupsModule } from './e-groups.module';
